@@ -1,3 +1,10 @@
+# THIS IS A FORK
+
+The purpose of this fork is to remove all of the calls to `submit_stats` that the main project uses.
+
+https://github.com/Ponytech/appstoreconnectapi/issues/18
+
+
 App Store Connect Api
 ====
 
