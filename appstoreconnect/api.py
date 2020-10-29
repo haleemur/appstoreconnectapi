@@ -601,7 +601,29 @@ class Api:
                 :return: an iterator over Profile resources
                 """
         return self._get_resources(Profile, filters, sort)
+    
+    # Reporting
+    def download_financial_detail_reports(self, filters=None, save_to=None):
+        # setup required filters if not provided
+        for required_key, default_value in (
+            ("regionCode", "Z1"),
+            ("reportType", "FINANCIAL"),
+            # vendorNumber is required but we cannot provide a default value
+            # reportDate is required but we cannot provide a default value
+        ):
+            if required_key not in filters:
+                filters[required_key] = default_value
 
+        url = "%s%s" % (BASE_API, FinanceReport.endpoint)
+        url = self._build_query_parameters(url, filters)
+        response = self._api_call(url)
+
+        if save_to:
+            file = Path(save_to)
+            file.write_text(response, "utf-8")
+
+        return response
+    
     # Reporting
     def download_finance_reports(self, filters=None, save_to=None):
         # setup required filters if not provided
